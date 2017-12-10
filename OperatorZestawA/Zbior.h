@@ -69,7 +69,8 @@ public:
 	//zwrócenie liczby elementów w zbiorze (wykorzystaj operator rzutowania na typ int)
 	operator int() const { return this->dlugoscTablicy; }
 
-	//dodanie nowego elementu do zbioru (operator+)	Zbior operator+ (int z) {
+	//dodanie nowego elementu do zbioru (operator+)
+	Zbior operator+ (int z) {
 		Zbior nowy = Zbior(*this);
 		for (int i = 0; i < nowy.dlugoscTablicy; i++) {
 			if (nowy.dynamicznaTablicaLiczbCalkowitych[i] == z) {
@@ -89,7 +90,8 @@ public:
 		return nowy;
 	};
 
-	//odejmowanie elementu ze zbioru (operator-)	Zbior operator- (int z) {
+	//odejmowanie elementu ze zbioru (operator-)
+	Zbior operator- (int z) {
 		Zbior nowy = Zbior(*this);
 		for (int i = 0; i < nowy.dlugoscTablicy; i++) {
 			if (nowy.dynamicznaTablicaLiczbCalkowitych[i] == z) {
@@ -108,9 +110,10 @@ public:
 		return nowy;
 	};
 
-	//wypisanie elementów zbioru(operator«)	friend ostream & operator<< (ostream &wyjscie, const Zbior &z) {
+	//wypisanie elementów zbioru(operator«)
+	friend ostream & operator<< (ostream &wyjscie, const Zbior &z) {
 		
-		for (int = 0; i < z.dlugoscTablicy; i++) {
+		for (int i = 0; i < z.dlugoscTablicy; i++) {
 			wyjscie << z.dynamicznaTablicaLiczbCalkowitych[z] << endl;
 		}
 		return wyjscie;
