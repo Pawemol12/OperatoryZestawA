@@ -94,23 +94,6 @@ public:
 	};
 
 	//odejmowanie elementu ze zbioru (operator-)	Zbior operator- (int z) {
-		Zbior nowy;
-		int *dyn = new int[this->dlugoscTablicy - 1];
-		for (int i = 0; i < this->dlugoscTablicy; i++) {
-			dyn[i] = this->dynamicznaTablicaLiczbCalkowitych[i];
-		}
-
-
-
-		int *dyn = new int[this->dlugoscTablicy + 1];
-		for (int i = 0; i < this->dlugoscTablicy; i++) {
-			dyn[i] = this->dynamicznaTablicaLiczbCalkowitych[i];
-		}
-		dyn[this->dlugoscTablicy] = z;
-		delete[]this->dynamicznaTablicaLiczbCalkowitych;
-
-		nowy.dynamicznaTablicaLiczbCalkowitych = dyn;
-		return nowy;
 	};
 };
 
