@@ -1,4 +1,6 @@
 #pragma once
+#include <iostream>
+using namespace std;
 class Zbior
 {
 private:
@@ -14,12 +16,10 @@ public:
 	//Operatory
 	//obliczenie sumy zbiorów (operator+)
 	Zbior operator+ (Zbior &z) {
-		Zbior nowy;
-		nowy.dlugoscTablicy = this->dlugoscTablicy;
-		nowy.dynamicznaTablicaLiczbCalkowitych = new int[this->dlugoscTablicy];
+		Zbior nowy = Zbior(*(this));
 
-		for (int i = 0; i < this->dlugoscTablicy; i++) {
-			nowy.dynamicznaTablicaLiczbCalkowitych[i] = this->dynamicznaTablicaLiczbCalkowitych[i] + z.dynamicznaTablicaLiczbCalkowitych[i];
+		for (int i = 0; i < z.dlugoscTablicy; i++) {
+			nowy = nowy + z.dynamicznaTablicaLiczbCalkowitych[i];
 		}
 
 		return nowy;
@@ -28,12 +28,10 @@ public:
 
 	//obliczenie ró¿nicy zbiorów (operator+)
 	Zbior operator- (Zbior &z) {
-		Zbior nowy;
-		nowy.dlugoscTablicy = this->dlugoscTablicy;
-		nowy.dynamicznaTablicaLiczbCalkowitych = new int[this->dlugoscTablicy];
+		Zbior nowy = Zbior(*(this));
 
-		for (int i = 0; i < this->dlugoscTablicy; i++) {
-			nowy.dynamicznaTablicaLiczbCalkowitych[i] = this->dynamicznaTablicaLiczbCalkowitych[i] - z.dynamicznaTablicaLiczbCalkowitych[i];
+		for (int i = 0; i < z.dlugoscTablicy; i++) {
+			nowy = nowy - z.dynamicznaTablicaLiczbCalkowitych[i];
 		}
 
 		return nowy;
@@ -42,10 +40,15 @@ public:
 	//obliczenie iloczynu zbiorów
 	Zbior operator* (Zbior &z) {
 		Zbior nowy;
-		nowy.dlugoscTablicy = this->dlugoscTablicy;
-		nowy.dynamicznaTablicaLiczbCalkowitych = new int[this->dlugoscTablicy];
+		
+		int dlugosc = 0;
+
 		for (int i = 0; i < this->dlugoscTablicy; i++) {
-			nowy.dynamicznaTablicaLiczbCalkowitych[i] = this->dynamicznaTablicaLiczbCalkowitych[i] * z.dynamicznaTablicaLiczbCalkowitych[i];
+			for (int a = 0; a < z.dlugoscTablicy; a++) {
+				if (this->dynamicznaTablicaLiczbCalkowitych[i] == z.dynamicznaTablicaLiczbCalkowitych[a]) {
+					nowy = nowy + this->dynamicznaTablicaLiczbCalkowitych[i];
+				}
+			}
 		}
 
 		return nowy;
@@ -67,33 +70,50 @@ public:
 	operator int() const { return this->dlugoscTablicy; }
 
 	//dodanie nowego elementu do zbioru (operator+)	Zbior operator+ (int z) {
-		Zbior nowy;
-		for (int i = 0; i < this->dlugoscTablicy; i++) {
-			if (this->dynamicznaTablicaLiczbCalkowitych[i] == z) {
-				nowy.dlugoscTablicy = this->dlugoscTablicy;
-				nowy.dynamicznaTablicaLiczbCalkowitych = new int[this->dlugoscTablicy];
-
-				for (int a = 0; a < this->dlugoscTablicy; a++) {
-					nowy.dynamicznaTablicaLiczbCalkowitych[a] = this->dynamicznaTablicaLiczbCalkowitych[a];
-				}
+		Zbior nowy = Zbior(*this);
+		for (int i = 0; i < nowy.dlugoscTablicy; i++) {
+			if (nowy.dynamicznaTablicaLiczbCalkowitych[i] == z) {
 				return nowy;
 			}
 		}
 
-
-		nowy.dlugoscTablicy = this->dlugoscTablicy + 1;
-		int *dyn = new int[this->dlugoscTablicy + 1];
-		for (int i = 0; i < this->dlugoscTablicy; i++) {
-			dyn[i] = this->dynamicznaTablicaLiczbCalkowitych[i];
+		nowy.dlugoscTablicy++;
+		int *dyn = new int[nowy.dlugoscTablicy];
+		for (int i = 0; i < nowy.dlugoscTablicy; i++) {
+			dyn[i] = nowy.dynamicznaTablicaLiczbCalkowitych[i];
 		}
-		dyn[this->dlugoscTablicy] = z;
-		delete []this->dynamicznaTablicaLiczbCalkowitych;
+		dyn[nowy.dlugoscTablicy-1] = z;
+		delete []nowy.dynamicznaTablicaLiczbCalkowitych;
 
 		nowy.dynamicznaTablicaLiczbCalkowitych = dyn;
 		return nowy;
 	};
 
 	//odejmowanie elementu ze zbioru (operator-)	Zbior operator- (int z) {
+		Zbior nowy = Zbior(*this);
+		for (int i = 0; i < nowy.dlugoscTablicy; i++) {
+			if (nowy.dynamicznaTablicaLiczbCalkowitych[i] == z) {
+				nowy.dlugoscTablicy--;
+				int *dyn = new int[nowy.dlugoscTablicy];
+				for (int a = 0; a < nowy.dlugoscTablicy; a++) {
+					if (nowy.dynamicznaTablicaLiczbCalkowitych[a] != z) {
+						dyn[a] = nowy.dynamicznaTablicaLiczbCalkowitych[a];
+					}
+				}
+				delete[]nowy.dynamicznaTablicaLiczbCalkowitych;
+				nowy.dynamicznaTablicaLiczbCalkowitych = dyn;
+				break;
+			}
+		}
+		return nowy;
 	};
+
+	//wypisanie elementów zbioru(operator«)	friend ostream & operator<< (ostream &wyjscie, const Zbior &z) {
+		
+		for (int = 0; i < z.dlugoscTablicy; i++) {
+			wyjscie << z.dynamicznaTablicaLiczbCalkowitych[z] << endl;
+		}
+		return wyjscie;
+	}
 };
 
